@@ -1,10 +1,9 @@
 :root {
+  --color-background: #F8F8F8;
+  --color-border-frame: #D6E4D6;
+  --color-text-primary: #143600;
+  --color-primary-accent: #ffffff;
   --color-background: #ffffff;
-  /* Um branco bem suave, quase off-white */
-  --color-border-frame: #d1e4d1;
-  /* Um verde bem clarinho para a borda */
-  --color-text-primary: #556B55;
-  /* Um verde musgo para o texto principal */
   --color-text-secondary: #8B817A;
   /* Um cinza-marrom para detalhes menores */
   --color-gold-accent: #B8860B;
@@ -18,7 +17,6 @@
   /* Para o corpo do texto e detalhes */
 }
 
-/* Base resets */
 body {
   font-family: var(--font-body);
   margin: 0;
@@ -40,41 +38,119 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--color-border-frame);
-  /* Fundo verde clarinho */
-  color: var(--color-text-primary);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   z-index: 1000;
-  transition: opacity 0.5s ease-out;
+  transition: opacity 0.4s ease-out;
+  overflow: hidden;
+  background-color: var(--color-primary-accent);
+}
+
+.loading-background-image {
+  /* IMAGEM DE FUNDO DA ENTRADA */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10%;
+  height: 100%;
+  background-image: url('img/intro-bg.jpg');
+  /* <-- SUBSTITUA PELA SUA IMAGEM DE FUNDO */
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.6) grayscale(70%);
+  /* Escurece e deixa em tons de cinza */
+  transform: scale(1.05);
+  /* Um leve zoom */
+  animation: backgroundFadeIn 2s ease-out forwards;
+  /* Animação para a imagem de fundo */
+}
+
+.loader-content {
+  position: relative;
+  z-index: 1001;
+  color: var(--color-background);
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  /* Para centralizar os itens verticalmente */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: contentFadeIn 2.5s ease-out forwards;
+  /* Animação para o conteúdo */
+}
+
+.loading-logo {
+  /* ESTILO PARA A LOGO */
+  width: 380px;
+  /* Ajuste o tamanho da logo conforme necessário */
+  height: auto;
+  margin-bottom: 20px;
+  opacity: 0;
+  /* Começa invisível */
+  animation: logoFadeIn 1.5s ease-out 0.5s forwards;
+  /* Atraso de 0.5s para aparecer depois do fundo */
 }
 
 .loader-content h1 {
   font-family: var(--font-main-title);
-  font-size: 4.5em;
-  /* Um pouco menor para o 50 ANOS na entrada */
-  color: var(--color-text-primary);
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  animation: pulse 1.5s infinite alternate;
+  font-size: 5.5em;
+  color: var(--color-gold-accent);
+  letter-spacing: 5px;
+  margin: 0;
+  /* Remove margem padrão */
 }
 
 .loader-content p {
-  font-size: 1.2em;
-  letter-spacing: 1px;
+  font-size: 1.8em;
+  letter-spacing: 3px;
   font-weight: 300;
+  margin-top: 10px;
+  /* Espaço entre o h1 e o p */
 }
 
-@keyframes pulse {
+/* Animações da Tela de Carregamento */
+@keyframes backgroundFadeIn {
   0% {
-    transform: scale(1);
-    opacity: 0.8;
+    opacity: 0;
+    filter: brightness(0.4) grayscale(100%);
+    transform: scale(1.1);
   }
 
   100% {
-    transform: scale(1.05);
     opacity: 1;
+    filter: brightness(0.6) grayscale(70%);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes logoFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes contentFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  /* Atraso para aparecer depois da logo */
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -83,18 +159,14 @@ body {
 #invitation {
   width: 100%;
   max-width: 700px;
-  /* Largura maior para o convite */
   background: var(--color-background);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  /* Bordas levemente arredondadas */
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1s ease-in, transform 1s ease-in;
   position: relative;
-  /* Para posicionar elementos florais */
   overflow: hidden;
-  /* Para garantir que os florais não ultrapassem */
 }
 
 #invitation.visible {
@@ -114,13 +186,10 @@ body {
 .border-frame {
   border: 1px solid var(--color-border-frame);
   padding: 40px 50px;
-  /* Padding interno maior */
   min-height: 600px;
-  /* Altura mínima para o layout */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* Espalha o conteúdo verticalmente */
   text-align: center;
   position: relative;
 }
@@ -131,27 +200,19 @@ body {
   width: 230px;
   height: 230px;
   background-image: url('img/flowers.png');
+  /* Substitua pelo caminho da sua imagem floral */
   background-size: cover;
   background-repeat: no-repeat;
   opacity: 6;
   transform: rotate(15deg);
-  /* Uma leve rotação para o estilo */
-}
-
-.floral-element.bottom-left {
-  position: absolute;
-  left: -20px;
-  bottom: -30px;
-  transform: rotate(-15deg);
-  /* Rotação no sentido anti-horário */
-  /* Você pode precisar ajustar left e bottom conforme a imagem e o visual desejado */
 }
 
 .floral-element.top-right {
   top: -30px;
-  right: -50px;
+  right: -70px;
   transform: rotate(15deg);
 }
+
 
 .intro-text {
   font-family: var(--font-body);
@@ -176,9 +237,7 @@ body {
 
 .company-name {
   font-family: var(--font-main-title);
-  /* Estilo da fonte para o "50 Anos" */
   font-size: 4em;
-  /* Tamanho grande para o número */
   color: var(--color-text-primary);
   line-height: 0.9;
   margin-bottom: 10px;
@@ -193,11 +252,11 @@ body {
 }
 
 .details-section {
-  margin: 10px auto;
-  max-width: 300px;
+  margin: 40px auto;
+  max-width: 400px;
   border-top: 1px solid var(--color-border-frame);
   border-bottom: 1px solid var(--color-border-frame);
-  padding: 10px 5;
+  padding: 20px 0;
 }
 
 .detail-item {
@@ -276,15 +335,15 @@ body {
 .rsvp-prompt {
   font-size: 1.05em;
   color: var(--color-text-secondary);
-  margin-bottom: 30px;
-  font-weight: 200;
+  margin-bottom: 20px;
+  font-weight: 300;
 }
 
 .rsvp-button {
   display: inline-block;
   background-color: var(--color-text-primary);
   color: var(--color-background);
-  padding: 13px 30px;
+  padding: 14px 30px;
   text-decoration: none;
   font-weight: 600;
   border-radius: 5px;
@@ -310,4 +369,98 @@ body {
   color: var(--color-text-secondary);
   font-size: 0.9em;
   font-weight: 300;
+}
+
+/* ======================================= */
+/* === SEÇÃO RESPONSIVA (MEDIA QUERIES) === */
+/* ======================================= */
+
+@media (max-width: 650px) {
+
+  /* 1. Base do Convite */
+  #invitation {
+    max-width: 95%;
+    margin: 20px 0;
+    box-shadow: none;
+  }
+
+  .border-frame {
+    padding: 30px 20px;
+    min-height: auto;
+  }
+
+  /* 2. Entrada (Loading Screen) */
+  .loading-logo {
+    width: 120px;
+    /* Reduz o tamanho da logo no celular */
+    margin-bottom: 10px;
+  }
+
+  .loader-content h1 {
+    font-size: 3.5em;
+    letter-spacing: 3px;
+  }
+
+  .loader-content p {
+    font-size: 1.3em;
+    letter-spacing: 1px;
+  }
+
+  /* 3. Títulos e Slogans */
+  .company-name {
+    font-size: 2.8em;
+    margin-bottom: 5px;
+  }
+
+  .celebration-slogan {
+    font-size: 1em;
+  }
+
+  /* 4. Detalhes (Data, Hora, Local) */
+  .details-section {
+    margin: 30px auto;
+    padding: 15px 0;
+  }
+
+  .detail-item {
+    font-size: 1em;
+    line-height: 1.4;
+  }
+
+  /* 5. Personalização e Inputs */
+  .personalization-section {
+    padding: 15px;
+  }
+
+  .personalization-section input[type="text"] {
+    padding: 8px;
+    width: 100%;
+  }
+
+  .personalized-message {
+    font-size: 1.1em;
+    margin-top: 15px;
+  }
+
+  /* 6. Botão RSVP */
+  .rsvp-button {
+    padding: 10px 20px;
+    font-size: 0.9em;
+  }
+
+  /* 7. Elementos Florais */
+  .floral-element {
+    width: 120px;
+    height: 120px;
+  }
+
+  .floral-element.top-right {
+    top: -20px;
+    right: -30px;
+  }
+
+  .floral-element.bottom-left {
+    left: -15px;
+    bottom: -20px;
+  }
 }
